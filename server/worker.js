@@ -1,50 +1,69 @@
-import { Worker } from "bullmq";
-import { OpenAIEmbeddings } from "@langchain/openai";
+ import { Worker } from "bullmq";
 import { QdrantVectorStore } from "@langchain/qdrant";
-import { Document } from "@langchain/core/documents";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { CharacterTextSplitter } from "@langchain/textsplitters";
-import { VectorStore } from "@langchain/core/vectorstores";
+import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
 
+// 🚀 Worker
 const worker = new Worker(
   "file-upload-queue",
   async (job) => {
-    console.log(`Job:`, job.data);
+    console.log(`📌 Job:`, job.data);
     const data = JSON.parse(job.data);
-    /*
-       Path: data.path,
-       read the pdf from path,
-       chunk the pdf,
-       call the openai embediing model for every chunk,
-       store the chunk in qdrant db
-       */
 
-    // Load the pdf
+    // 1. Load PDF
+    console.log("📥 Loading PDF...");
     const loader = new PDFLoader(data.path);
-    const docs = await loader.load();
- 
-    const embeddings = new OpenAIEmbeddings({
-        model: 'text-embedding-3-small',
-        apiKey: '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'
-    })
+    const rawDocs = await loader.load();
+    console.log("✅ PDF loaded:", rawDocs.length, "docs");
 
-    const vectorStore = new QdrantVectorStore.fromExistingCollection(
+    // 2. Split into chunks
+    console.log("✂️ Splitting PDF...");
+    const splitter = new CharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 200,
+    });
+    const docs = await splitter.splitDocuments(rawDocs);
+    console.log("✅ PDF split into", docs.length, "chunks");
+
+    // 3. Create embeddings with Ollama
+    console.log("🧠 Creating embeddings (Ollama)...");
+    const embeddings = new OllamaEmbeddings({
+      model: "nomic-embed-text:v1.5", // ✅ exact installed model
+      baseUrl: "http://127.0.0.1:11434", // Ollama server
+    });
+    console.log("✅ Embeddings client ready");
+
+    // Optional: test embeddings
+    try {
+      const testVector = await embeddings.embedQuery("Hello world");
+      console.log("Embedding test vector length:", testVector.length);
+    } catch (err) {
+      console.error("❌ Embedding test failed:", err);
+      return; // stop if embeddings fail
+    }
+
+    // 4. Store in Qdrant
+    console.log("💾 Storing in Qdrant...");
+    try {
+      const vectorStore = await QdrantVectorStore.fromDocuments(
+        docs,
         embeddings,
         {
-            url: "http://localhost:6333",
-            collectionName: "langchainjs_testing"
+          url: "http://localhost:6333", // Qdrant
+          collectionName: "langchainjs-testing",
         }
-    )
-    await vectorStore.addDocuments(docs)
-    console.log(`All docs are added to vector store `);
+      );
+      console.log("🎉 All docs are added to Qdrant!");
+    } catch (err) {
+      console.error("❌ Qdrant insert failed:", err);
+    }
   },
   {
     concurrency: 100,
     connection: {
       host: "localhost",
-      port: '6379',
+      port: 6379,
     },
   }
 );
-
-
