@@ -1,24 +1,20 @@
- import express from 'express';
-import cors from 'cors';
-import multer from 'multer';
-import { Queue } from 'bullmq';
-import { QdrantVectorStore } from '@langchain/qdrant';
-import { OllamaEmbeddings } from '@langchain/community/embeddings/ollama';
-import OpenAI from 'openai';
+import express from "express";
+import cors from "cors";
+import multer from "multer";
+import { Queue } from "bullmq";
+import { QdrantVectorStore } from "@langchain/qdrant";
+import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
+import fetch from "node-fetch"; // npm install node-fetch
 
-const client = new OpenAI({
-  apiKey: '', // Add your OpenAI API key if using OpenAI for chat
+// BullMQ Queue
+const queue = new Queue("file-upload-queue", {
+  connection: { host: "localhost", port: 6379 },
 });
 
-const queue = new Queue('file-upload-queue', {
-  connection: { host: 'localhost', port: 6379 },
-});
-
-// Multer config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
+  destination: (req, file, cb) => cb(null, "uploads/"),
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, `${uniqueSuffix}-${file.originalname}`);
   },
 });
@@ -29,72 +25,84 @@ app.use(cors());
 app.use(express.json());
 
 // ✅ Health check
-app.get('/', (req, res) => res.json({ status: 'All Good!' }));
+app.get("/", (req, res) => res.json({ status: "All Good!" }));
 
 // ✅ PDF upload
-app.post('/upload/pdf', upload.single('pdf'), async (req, res) => {
+app.post("/upload/pdf", upload.single("pdf"), async (req, res) => {
   try {
-    await queue.add(
-      'file-ready',
-      JSON.stringify({
-        filename: req.file.originalname,
-        destination: req.file.destination,
-        path: req.file.path,
-      })
-    );
-    return res.json({ message: 'File uploaded and queued successfully' });
+    await queue.add("file-ready", {
+      filename: req.file.originalname,
+      destination: req.file.destination,
+      path: req.file.path,
+    });
+    res.json({ message: "File uploaded and queued successfully" });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to enqueue file' });
+    console.error("❌ Upload error:", err);
+    res.status(500).json({ error: "Failed to enqueue file" });
   }
 });
 
 // ✅ Chat endpoint
-app.get('/chat', async (req, res) => {
+app.get("/chat", async (req, res) => {
   const userQuery = req.query.message;
-  if (!userQuery) return res.status(400).json({ error: 'Missing query message' });
+  if (!userQuery)
+    return res.status(400).json({ error: "Missing query message" });
 
   try {
     // Ollama embeddings
     const embeddings = new OllamaEmbeddings({
-      model: 'nomic-embed-text:v1.5', // match installed embedding model
-      baseUrl: 'http://127.0.0.1:11434',
+      model: "nomic-embed-text:v1.5",
+      baseUrl: "http://127.0.0.1:11434",
     });
 
-    // Load existing Qdrant collection
-    const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, {
-      url: 'http://localhost:6333',
-      collectionName: 'langchainjs-testing',
-    });
+    const vectorStore = await QdrantVectorStore.fromExistingCollection(
+      embeddings,
+      {
+        url: "http://localhost:6333",
+        collectionName: "langchainjs-testing",
+      }
+    );
 
-    // Retrieve top 2 relevant documents
-    const retriever = vectorStore.asRetriever({ k: 2 });
+    const retriever = vectorStore.asRetriever({ k: 3 });
     const docs = await retriever.invoke(userQuery);
 
-    // System prompt with context
+    const contextText = docs
+      .map((d, i) => `Doc ${i + 1}:\n${d.pageContent}`)
+      .join("\n\n");
+
     const SYSTEM_PROMPT = `
-      You are a helpful AI Assistant who answers user queries based on the context from PDF files.
-      Context:
-      ${JSON.stringify(docs)}
+You are a helpful AI Assistant.
+Answer the user query based on the context from PDF files.
+
+Context:
+${contextText}
     `;
 
-    // OpenAI chat completion
-    const chatResult = await client.chat.completions.create({
-      model: 'gpt-4.1',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userQuery },
-      ],
+    const response = await fetch("http://127.0.0.1:11434/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "llama3.2",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: userQuery },
+        ],
+        stream: false,
+      }),
     });
 
-    return res.json({
-      message: chatResult.choices[0].message.content,
+    const data = await response.json();
+
+    res.json({
+      message: data.message?.content || "No response from Ollama",
       docs,
     });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to process chat' });
+    console.error("❌ Chat error:", err);
+    res
+      .status(500)
+      .json({ error: "Failed to process chat", details: err.message });
   }
 });
 
-app.listen(8000, () => console.log('Server started on PORT 8000'));
+app.listen(8000, () => console.log("🚀 Server started on PORT 8000"));
