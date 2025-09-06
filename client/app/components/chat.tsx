@@ -69,9 +69,9 @@ const ChatComponent: React.FC = () => {
   }, [messages, loading]);
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-neutral-00 via-black to-neutral-950 border-none m-6">
+    <div className="flex flex-col h-full bg-gradient-to-b from-neutral-00 via-black to-neutral-950 border-none m-6 ">
       {/* Scrollable chat messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 overflow-y-scroll [scrollbar-width:none] h-full">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -80,10 +80,10 @@ const ChatComponent: React.FC = () => {
             }`}
           >
             <Card
-              className={`max-w-[80%] shadow-md ${
+              className={`max-w-[80%] max-h-[100%] shadow-md ${
                 msg.role === "user"
-                  ? " flex items-center justify-center bg-gradient-to-r from-gray-600 to-indigo-600 text-white"
-                  : "bg-neutral-800 text-gray-200"
+                  ? " flex items-center justify-center bg-indigo-800 text-white border-none"
+                  : "bg-neutral-800 text-gray-200 border-none"
               }`}
             >
               <CardContent className="p-3">
@@ -120,7 +120,7 @@ const ChatComponent: React.FC = () => {
       </div>
 
       {/* Input bar */}
-      <div className="flex gap-3 bg-neutral-900 p-3 border-t border-neutral-800 shadow-lg">
+      <div className="flex gap-3  p-3 border-t border-none shadow-lg w-full m-5 rounded-2xl">
         <Input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -132,7 +132,7 @@ const ChatComponent: React.FC = () => {
         <Button
           onClick={handleSendChatMessage}
           disabled={!message.trim() || loading}
-          className="bg-purple-600 hover:bg-purple-700 text-white"
+          className="bg-indigo-800 hover:bg-indigo-900 text-white"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Send"}
         </Button>

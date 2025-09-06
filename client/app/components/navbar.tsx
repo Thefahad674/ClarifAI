@@ -84,7 +84,13 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <nav className="w-full relative h-20 bg-gradient-to-r from-black via-neutral-00 to-gray-800 backdrop-blur-md shadow-lg text-white">
+    <nav className="w-full absolute h-20 bg-gradient-to-r from-black via-neutral-00 to-gray-00 backdrop-blur-md shadow-lg text-white overflow-hidden rounded-2xl">
+      {/* Particle network canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+      />
+
       <div className="max-w-7xl mx-auto px-6 flex items-center h-full justify-between relative z-10">
         {/* Logo */}
         <div className="flex items-center space-x-3 z-10">
@@ -98,20 +104,12 @@ const Navbar: React.FC = () => {
           />
         </div>
 
-        {/* Links */}
-
         {/* CTA Button */}
-        <div className="hidden md:block">
+        <div>
           <Button className="bg-gray-700 hover:bg-gray-600 rounded-full px-5">
             Get Started
           </Button>
         </div>
-
-        {/* Particle network canvas */}
-        <canvas
-          ref={canvasRef}
-          className="absolute right-6 w-full h-full pointer-events-none z-0"
-        />
       </div>
     </nav>
   );

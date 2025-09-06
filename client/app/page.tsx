@@ -4,7 +4,7 @@ import Navbar from "./components/navbar";
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-gradient-to-br from-black via-neutral-00 to-gray-900">
+    <div className="h-screen w-screen overflow-hidden flex flex-col bg-gradient-to-br from-black via-neutral-00 to-black">
       {/* Navbar */}
       <div className="h-[60px] flex-shrink-0">
         <Navbar />
