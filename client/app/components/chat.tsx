@@ -89,7 +89,7 @@ const ChatComponent: React.FC = () => {
               <CardContent className="p-3">
                 <p className="whitespace-pre-wrap">{msg.content}</p>
 
-                {msg.role === "assistant" && msg.documents && (
+                {/* {msg.role === "assistant" && msg.documents && (
                   <div className="mt-2 border-t border-gray-700 pt-2 text-xs text-gray-400">
                     <p className="font-semibold">Sources:</p>
                     <ul className="list-disc list-inside">
@@ -101,7 +101,7 @@ const ChatComponent: React.FC = () => {
                       ))}
                     </ul>
                   </div>
-                )}
+                )} */}
               </CardContent>
             </Card>
           </div>
