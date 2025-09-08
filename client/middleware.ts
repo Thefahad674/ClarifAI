@@ -1,13 +1,7 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
-
-export default clerkMiddleware();
-
+// middleware.ts (temporary)
 export const config = {
-  matcher: [
-   
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    
-    '/(api|trpc)(.*)',
-  ],
-  runtime: "nodejs",  
+  matcher: [],
 };
+export default function () {
+  return; // no middleware runs
+}
