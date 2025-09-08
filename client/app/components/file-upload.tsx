@@ -37,9 +37,13 @@ const FileUploadComponent: React.FC = () => {
             console.log("File uploaded successfully ✅");
             setUploadSuccess(true);
             setTimeout(() => setUploadSuccess(false), 3000);
-          } catch (err: any) {
+          } catch (err: unknown) {
             console.error("Upload error ❌", err);
-            setUploadError(err.message || "Upload failed");
+            if (err instanceof Error) {
+              setUploadError(err.message);
+            } else {
+              setUploadError("Upload failed");
+            }
             setTimeout(() => setUploadError(null), 3000);
           } finally {
             setIsUploading(false);
@@ -60,19 +64,27 @@ const FileUploadComponent: React.FC = () => {
           w-full sm:w-[90%] md:w-[320px] 
           max-w-md
           text-center transition-all duration-300 
-          ${isUploading ? "opacity-70 pointer-events-none" : "hover:bg-slate-800"}
+          ${
+            isUploading
+              ? "opacity-70 pointer-events-none"
+              : "hover:bg-slate-800"
+          }
         `}
       >
         <div className="flex flex-col items-center gap-3">
           {isUploading ? (
             <div className="flex flex-col items-center gap-2">
               <Loader2 className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-blue-500 animate-spin" />
-              <p className="text-xs sm:text-sm text-slate-200">Uploading PDF...</p>
+              <p className="text-xs sm:text-sm text-slate-200">
+                Uploading PDF...
+              </p>
             </div>
           ) : uploadSuccess ? (
             <div className="flex flex-col items-center gap-2">
               <CheckCircle2 className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-green-500" />
-              <p className="text-xs sm:text-sm text-green-500">Upload successful!</p>
+              <p className="text-xs sm:text-sm text-green-500">
+                Upload successful!
+              </p>
             </div>
           ) : uploadError ? (
             <div className="flex flex-col items-center gap-2">

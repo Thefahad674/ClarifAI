@@ -27,8 +27,8 @@ const Navbar: React.FC = () => {
     setCanvasSize();
     window.addEventListener("resize", setCanvasSize);
 
-    let width = canvas.width / (window.devicePixelRatio || 1);
-    let height = canvas.height / (window.devicePixelRatio || 1);
+    const width = canvas.width / (window.devicePixelRatio || 1);
+    const height = canvas.height / (window.devicePixelRatio || 1);
 
     const particles = Array.from({ length: 40 }, () => ({
       x: Math.random() * width,

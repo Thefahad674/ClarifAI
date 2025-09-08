@@ -6,9 +6,6 @@ import {
   SignedOut,
   SignUp,
   SignedIn,
-  UserButton,
-  SignInButton,
-  SignUpButton
 } from "@clerk/nextjs";
 
 const geistSans = Geist({
