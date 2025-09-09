@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "client/package.json",
+      "src": "client/next.config.js",
       "use": "@vercel/next"
     }
   ],
@@ -11,5 +11,6 @@
       "src": "/(.*)",
       "dest": "client/$1"
     }
-  ]
+  ],
+  "ignore": ["server/**", "docker-compose.yml", "Dockerfile"]
 }
