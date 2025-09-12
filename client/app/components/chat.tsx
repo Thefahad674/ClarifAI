@@ -54,7 +54,7 @@ const ChatComponent: React.FC = () => {
       console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Something went wrong." },
+        { role: "assistant", content: " Something went wrong." },
       ]);
     } finally {
       setLoading(false);
