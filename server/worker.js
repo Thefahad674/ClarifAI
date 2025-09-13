@@ -8,17 +8,17 @@ import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
 const worker = new Worker(
   "file-upload-queue",
   async (job) => {
-    console.log(`📌 Job:`, job.data);
+    console.log(`Job:`, job.data);
     const data = job.data; // ✅ FIXED
 
     // 1. Load PDF
-    console.log("📥 Loading PDF...");
+    console.log("Loading PDF...");
     const loader = new PDFLoader(data.path);
     const rawDocs = await loader.load();
     console.log("✅ PDF loaded:", rawDocs.length, "docs");
 
     // 2. Split into chunks
-    console.log("✂️ Splitting PDF...");
+    console.log("Splitting PDF...");
     const splitter = new CharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 200,
@@ -27,7 +27,7 @@ const worker = new Worker(
     console.log("✅ PDF split into", docs.length, "chunks");
 
     // 3. Create embeddings with Ollama
-    console.log("🧠 Creating embeddings (Ollama)...");
+    console.log("Creating embeddings (Ollama)...");
     const embeddings = new OllamaEmbeddings({
       model: "nomic-embed-text", // use the model you pulled
       baseUrl: "http://127.0.0.1:11434", // Ollama server
@@ -39,7 +39,7 @@ const worker = new Worker(
       const testVector = await embeddings.embedQuery("Hello world");
       console.log("Embedding test vector length:", testVector.length);
     } catch (err) {
-      console.error("❌ Embedding test failed:", err);
+      console.error("Embedding test failed:", err);
       return; // stop if embeddings fail
     }
 
@@ -52,7 +52,7 @@ const worker = new Worker(
       });
       console.log("🎉 All docs are added to Qdrant!");
     } catch (err) {
-      console.error("❌ Qdrant insert failed:", err);
+      console.error("Qdrant insert failed:", err);
     }
   },
   {
