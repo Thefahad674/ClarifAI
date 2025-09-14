@@ -34,23 +34,23 @@ const worker = new Worker(
     });
     console.log("✅ Embeddings client ready");
 
-    // Optional: test embeddings
+    
     try {
       const testVector = await embeddings.embedQuery("Hello world");
       console.log("Embedding test vector length:", testVector.length);
     } catch (err) {
       console.error("Embedding test failed:", err);
-      return; // stop if embeddings fail
+      return;  
     }
 
     // 4. Store in Qdrant
     console.log("💾 Storing in Qdrant...");
     try {
       await QdrantVectorStore.fromDocuments(docs, embeddings, {
-        url: "http://localhost:6333", // Qdrant
+        url: "http://localhost:6333",  
         collectionName: "langchainjs-testing",
       });
-      console.log("🎉 All docs are added to Qdrant!");
+      console.log("All docs are added to Qdrant!");
     } catch (err) {
       console.error("Qdrant insert failed:", err);
     }
