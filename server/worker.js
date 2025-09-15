@@ -4,12 +4,12 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { CharacterTextSplitter } from "@langchain/textsplitters";
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
 
-// 🚀 Worker
+ 
 const worker = new Worker(
   "file-upload-queue",
   async (job) => {
     console.log(`Job:`, job.data);
-    const data = job.data; // ✅ FIXED
+    const data = job.data;  
 
     // 1. Load PDF
     console.log("Loading PDF...");
