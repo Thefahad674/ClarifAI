@@ -24,10 +24,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Health check
+// Health check
 app.get("/", (req, res) => res.json({ status: "All Good!" }));
 
-// ✅ PDF upload
+// PDF upload
 app.post("/upload/pdf", upload.single("pdf"), async (req, res) => {
   try {
     await queue.add("file-ready", {
@@ -37,12 +37,12 @@ app.post("/upload/pdf", upload.single("pdf"), async (req, res) => {
     });
     res.json({ message: "File uploaded and queued successfully" });
   } catch (err) {
-    console.error("❌ Upload error:", err);
+    console.error(" Upload error:", err);
     res.status(500).json({ error: "Failed to enqueue file" });
   }
 });
 
-// ✅ Chat endpoint
+// Chat endpoint
 app.get("/chat", async (req, res) => {
   const userQuery = req.query.message;
   if (!userQuery)
@@ -98,11 +98,11 @@ ${contextText}
       docs,
     });
   } catch (err) {
-    console.error("❌ Chat error:", err);
+    console.error(" Chat error:", err);
     res
       .status(500)
       .json({ error: "Failed to process chat", details: err.message });
   }
 });
 
-app.listen(8000, () => console.log("🚀 Server started on PORT 8000"));
+app.listen(8000, () => console.log(" Server started on PORT 8000"));
