@@ -36,7 +36,7 @@ const ChatComponent: React.FC = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8000/chat?message=${encodeURIComponent(
+        `https://clarifai-jm7e.onrender.com/chat?message=${encodeURIComponent(
           currentMessage
         )}`
       );

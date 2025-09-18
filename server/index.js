@@ -6,6 +6,8 @@ import { QdrantVectorStore } from "@langchain/qdrant";
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
 import fetch from "node-fetch"; // npm install node-fetch
 
+const PORT = process.env.PORT || 8000;
+
 // BullMQ Queue
 const queue = new Queue("file-upload-queue", {
   connection: {
@@ -113,4 +115,4 @@ ${contextText}
   }
 });
 
-app.listen(8000, () => console.log(" Server started on PORT 8000"));
+app.listen(PORT, () => console.log(" Server started on PORT 8000"));

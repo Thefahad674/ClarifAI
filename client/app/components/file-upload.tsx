@@ -25,7 +25,7 @@ const FileUploadComponent: React.FC = () => {
             setUploadSuccess(false);
             setUploadError(null);
 
-            const res = await fetch("http://localhost:8000/upload/pdf", {
+            const res = await fetch("https://clarifai-jm7e.onrender.com/upload/pdf", {
               method: "POST",
               body: formData,
             });
