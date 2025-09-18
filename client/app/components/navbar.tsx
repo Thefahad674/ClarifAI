@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
       {/* Particle network canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+       className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
       />
 
       <div className="max-w-7xl mx-auto px-6 flex items-center h-full justify-between relative z-10">

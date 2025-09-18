@@ -18,7 +18,7 @@ export default function Home() {
         </div>
 
         {/* Right Panel */}
-        <div className="w-full lg:w-[70vw] h-[60vh] lg:h-full border-none overflow-hidden rounded-2xl">
+        <div className="relative w-full lg:w-[70vw] h-screen lg:h-full border-none overflow-hidden mb-8 rounded-2xl">
           <ChatComponent />
         </div>
       </div>
