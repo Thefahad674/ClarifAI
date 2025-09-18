@@ -62,18 +62,22 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased 
             bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 text-slate-100 min-h-screen`}
         >
-          <header className="w-full py-4 px-6 absolute top-0">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">AI</span>
-                </div>
-                <span className="font-bold text-xl bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                  ClarifAI
-                </span>
-              </Link>
-              <div className="flex items-center space-x-4">
-                <SignedIn>
+          
+
+          <main className="flex flex-col justify-center items-center min-h-screen  ">
+            {/* Show authentication UI only when signed out */}
+            <SignedOut>
+              <header className="w-full py-4 px-6 absolute top-0">
+              <div className="max-w-7xl mx-auto flex justify-between items-center">
+                <Link href="/" className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">AI</span>
+                  </div>
+                  <span className="font-bold text-xl bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                    ClarifAI
+                  </span>
+                </Link>
+                <div className="flex items-center space-x-4">
                   <UserButton 
                     afterSignOutUrl="/"
                     appearance={{
@@ -85,13 +89,9 @@ export default function RootLayout({
                       }
                     }}
                   />
-                </SignedIn>
+                </div>
               </div>
-            </div>
-          </header>
-
-          <main className="flex flex-col justify-center items-center min-h-screen px-4 py-16">
-            <SignedOut>
+            </header>
               <div className="max-w-md w-full mx-auto text-center space-y-8 p-8 bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-800">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
@@ -103,7 +103,6 @@ export default function RootLayout({
                 </div>
                 
                 <div className="flex flex-col space-y-3">
-                  {/* Fixed: Using routing and path props instead of URL props */}
                   <SignUpButton mode="modal">
                     <button className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl shadow-md hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 font-medium">
                       Get Started
@@ -132,18 +131,15 @@ export default function RootLayout({
               </div>
             </SignedOut>
             
+            {/* Show main content only when signed in */}
             <SignedIn>
-              <div className="w-full max-w-6xl mx-auto">
+               
                 {children}
-              </div>
+               
             </SignedIn>
           </main>
           
-          <footer className="w-full py-6 px-6 border-t border-slate-800 bg-slate-900/50">
-            <div className="max-w-7xl mx-auto text-center text-sm text-slate-500">
-              <p>© {new Date().getFullYear()} ClarifAI. All rights reserved.</p>
-            </div>
-          </footer>
+          
         </body>
       </html>
     </ClerkProvider>
