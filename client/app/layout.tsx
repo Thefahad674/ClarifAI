@@ -34,14 +34,28 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased 
+            bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 min-h-screen`}
         >
-          <section>
+          <section className="flex flex-col justify-center items-center min-h-screen px-4">
             <SignedOut>
-              <SignUpButton />
+              <div className="text-center space-y-6">
+                <h1 className="text-2xl font-semibold">Welcome</h1>
+                <p className="text-gray-600">
+                  Sign up to access your dashboard
+                </p>
+                <SignUpButton
+                  mode="modal"
+                  
+                >
+                  <button className="px-6 py-2 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </div>
             </SignedOut>
+            <SignedIn >{children}</SignedIn>
           </section>
-          <SignedIn>{children}</SignedIn>
         </body>
       </html>
     </ClerkProvider>

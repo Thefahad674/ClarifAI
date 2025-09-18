@@ -8,8 +8,14 @@ import fetch from "node-fetch"; // npm install node-fetch
 
 // BullMQ Queue
 const queue = new Queue("file-upload-queue", {
-  connection: { host: "localhost", port: 6379 },
+  connection: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD,
+    tls: {},
+  },
 });
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
@@ -55,13 +61,15 @@ app.get("/chat", async (req, res) => {
       baseUrl: "http://127.0.0.1:11434",
     });
 
-    const vectorStore = await QdrantVectorStore.fromExistingCollection(
-      embeddings,
-      {
-        url: "http://localhost:6333",
-        collectionName: "langchainjs-testing",
-      }
-    );
+   const vectorStore = await QdrantVectorStore.fromExistingCollection(
+  embeddings,
+  {
+    url: process.env.QDRANT_URL,
+    apiKey: process.env.QDRANT_API_KEY,
+    collectionName: "langchainjs-testing",
+  }
+);
+
 
     const retriever = vectorStore.asRetriever({ k: 3 });
     const docs = await retriever.invoke(userQuery);
