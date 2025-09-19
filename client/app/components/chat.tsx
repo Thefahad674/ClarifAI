@@ -79,7 +79,7 @@ const ChatComponent: React.FC = () => {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`flex ${
+            className={`flex p-2 ${
               msg.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
