@@ -2,8 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import Logo from "@/public/clarifai-logo.svg";
-import { Button } from "@/components/ui/button";
+import { Button } from '../../components/ui/moving-border'
 
 const Navbar: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -52,7 +51,7 @@ const Navbar: React.FC = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "#9ca3af"; // gray particles
+        ctx.fillStyle = "#9ca3af";
         ctx.fill();
       });
 
@@ -63,7 +62,7 @@ const Navbar: React.FC = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(156,163,175,${1 - dist / 120})`; // gray lines
+            ctx.strokeStyle = `rgba(156,163,175,${1 - dist / 120})`;
             ctx.lineWidth = 0.6;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -84,18 +83,18 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <nav className="w-full absolute h-20 bg-gradient-to-r from-black via-neutral-00 to-gray-00 backdrop-blur-md shadow-lg text-white overflow-hidden rounded-2xl">
+    <nav className="w-full absolute h-20 bg-black backdrop-blur-md shadow-lg text-white overflow-hidden rounded-2xl">
       {/* Particle network canvas */}
       <canvas
         ref={canvasRef}
-       className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+        className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none z-0"
       />
 
       <div className="max-w-7xl mx-auto px-6 flex items-center h-full justify-between relative z-10">
         {/* Logo */}
         <div className="flex items-center space-x-3 z-10">
           <Image
-            src={Logo}
+            src="/clarifai-logo.svg" // ✅ Directly from /public
             alt="ClarifAI Logo"
             width={160}
             height={50}
@@ -106,7 +105,7 @@ const Navbar: React.FC = () => {
 
         {/* CTA Button */}
         <div>
-          <Button className="bg-gray-700 hover:bg-gray-600 rounded-full px-5">
+          <Button className="bg-black" >
             Get Started
           </Button>
         </div>

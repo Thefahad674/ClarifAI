@@ -4,21 +4,21 @@ import Navbar from "./components/navbar";
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-gradient-to-br from-black via- -900 to-black">
+    <div className="absolute h-screen w-screen overflow-hidden flex flex-col gap-2 lg:gap-8 justify-between bg-black">
       {/* Navbar */}
-      <div className="h-[60px] flex-shrink-0">
+      <div className="relative h-[50px] lg:h-[60px] flex-shrink-0">
         <Navbar />
       </div>
 
       {/* Main content */}
-      <div className="flex flex-1 overflow-hidden flex-col lg:flex-row">
-        {/* Left Panel */}
-        <div className="w-full lg:w-[30vw] h-[40vh] lg:h-full p-4 flex justify-center items-center">
+      <div className="relative flex flex-1 overflow-hidden flex-col  lg:flex-row">
+        {/* Upload Panel (super small on mobile) */}
+        <div className="relative w-full flex-[0.6] lg:w-[30vw] lg:flex-none lg:h-full p-1 lg:p-4 flex justify-center items-center">
           <FileUploadComponent />
         </div>
 
-        {/* Right Panel */}
-        <div className="relative w-full lg:w-[70vw] h-screen lg:h-full border-none overflow-hidden mb-8 rounded-2xl">
+        {/* Chat Panel (fills most of screen on mobile) */}
+        <div className="w-full flex-1 lg:w-[70vw] lg:flex-1 lg:h-full border-none overflow-hidden rounded-2xl">
           <ChatComponent />
         </div>
       </div>

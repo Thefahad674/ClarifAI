@@ -24,6 +24,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'ClarifAI - Intelligent Solutions',
   description: 'AI-powered platform for intelligent solutions and insights',
+  icons: {
+    icon: '/logo.svg',
+  },
 };
 
 export default function RootLayout({
