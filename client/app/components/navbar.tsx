@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3 z-10">
           <Image
-            src="/clarifai-logo.svg" // ✅ Directly from /public
+            src="/clarifai-logo.svg"  
             alt="ClarifAI Logo"
             width={160}
             height={50}
@@ -105,7 +105,9 @@ const Navbar: React.FC = () => {
 
         {/* CTA Button */}
         <div>
-          <Button className="bg-black" >
+          <Button
+          suppressHydrationWarning
+          className="bg-black" >
             Get Started
           </Button>
         </div>

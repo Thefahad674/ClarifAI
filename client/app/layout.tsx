@@ -10,6 +10,7 @@ import {
 } from '@clerk/nextjs';
 import './globals.css';
 import Link from 'next/link';
+import { BackgroundGradientAnimation } from "../components/ui/background-gradient-animation";
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -62,8 +63,7 @@ export default function RootLayout({
     >
       <html lang="en" className="dark">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased 
-            bg-gradient-to-br from-gray-900 via-slate-900 to-purple-900 text-slate-100 min-h-screen`}
+          className={`${geistSans.variable} ${geistMono.variable} `}
         >
           
 
@@ -73,11 +73,9 @@ export default function RootLayout({
               <header className="w-full py-4 px-6 absolute top-0">
               <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <Link href="/" className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">AI</span>
-                  </div>
-                  <span className="font-bold text-xl bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                    ClarifAI
+                  
+                  <span className="w-45">
+                    <img src="/clarifai-logo.svg" alt="" />
                   </span>
                 </Link>
                 <div className="flex items-center space-x-4">

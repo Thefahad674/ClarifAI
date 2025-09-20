@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { LoaderFive } from "@/components/ui/loader";
-import { div } from "motion/react-client";
  
-
 
 interface Doc {
   pageContent: string;
@@ -65,7 +63,6 @@ const ChatComponent: React.FC = () => {
     }
   };
 
-  // Auto-scroll to bottom
   React.useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -73,9 +70,12 @@ const ChatComponent: React.FC = () => {
   }, [messages, loading]);
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-neutral-00 via-black to-neutral-950 border-none m-6 ">
+    <div className="flex flex-col h-full bg-gradient-to-b from-neutral-900 via-black to-neutral-950 border-none m-6">
       {/* Scrollable chat messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 overflow-y-scroll [scrollbar-width:none] overflow-hidden max-h-sm:scrollbar h-[40vh] rounded-2xl space-y-4">
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto p-4 [scrollbar-width:none] h-[40vh] rounded-2xl space-y-4"
+      >
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -86,16 +86,12 @@ const ChatComponent: React.FC = () => {
             <Card
               className={`max-w-[80%] max-h-[100%] shadow-md ${
                 msg.role === "user"
-                  ? " flex items-center justify-center shadow-[5px_5px_rgba(8,_112,_184,_0.4),_10px_10px_rgba(8,_112,_184,_0.3),_15px_15px_rgba(8,_112,_184,_0.2),_20px_20px_rgba(8,_112,_184,_0.1),_25px_25px_rgba(8,_112,_184,_0.05)] text-white   bg-transparent"
-                  : " shadow-[-5px_5px_rgba(66,_66,_66,_0.4),_-10px_10px_rgba(66,_66,_66,_0.3),_-15px_15px_rgba(66,_66,_66,_0.2),_-20px_20px_rgba(66,_66,_66,_0.1),_-25px_25px_rgba(66,_66,_66,_0.05)] text-gray-200 border-none bg-transparent"
+                  ? "shadow-[5px_5px_rgba(8,_112,_184,_0.4),_10px_10px_rgba(8,_112,_184,_0.3),_15px_15px_rgba(8,_112,_184,_0.2),_20px_20px_rgba(8,_112,_184,_0.1),_25px_25px_rgba(8,_112,_184,_0.05)] text-white bg-transparent"
+                  : "shadow-[-5px_5px_rgba(66,_66,_66,_0.4),_-10px_10px_rgba(66,_66,_66,_0.3),_-15px_15px_rgba(66,_66,_66,_0.2),_-20px_20px_rgba(66,_66,_66,_0.1),_-25px_25px_rgba(66,_66,_66,_0.05)] text-gray-200 bg-transparent"
               }`}
             >
-              
               <CardContent className="p-3">
-                 
                 <p className="whitespace-pre-wrap">{msg.content}</p>
-
-               
               </CardContent>
             </Card>
           </div>
@@ -103,10 +99,9 @@ const ChatComponent: React.FC = () => {
 
         {loading && (
           <div className="flex justify-start">
-            <Card className=" bg-transparent max-w-[60%] shadow-[-5px_5px_rgba(66,_66,_66,_0.4),_-10px_10px_rgba(66,_66,_66,_0.3),_-15px_15px_rgba(66,_66,_66,_0.2),_-20px_20px_rgba(66,_66,_66,_0.1),_-25px_25px_rgba(66,_66,_66,_0.05)]">
+            <Card className="bg-transparent max-w-[60%] shadow-[-5px_5px_rgba(66,_66,_66,_0.4),_-10px_10px_rgba(66,_66,_66,_0.3),_-15px_15px_rgba(66,_66,_66,_0.2),_-20px_20px_rgba(66,_66,_66,_0.1),_-25px_25px_rgba(66,_66,_66,_0.05)]">
               <CardContent className="p-3 flex items-center gap-2">
-                <LoaderFive  text="Generating chat..."  />
-               
+                <LoaderFive text="Generating chat..." />
               </CardContent>
             </Card>
           </div>
@@ -114,8 +109,9 @@ const ChatComponent: React.FC = () => {
       </div>
 
       {/* Input bar */}
-      <div className="flex gap-3  p-3 border-t border-none shadow-lg w-full m-5 rounded-2xl">
+      <div className="flex gap-3 p-3 w-full m-5 rounded-2xl">
         <Input
+          suppressHydrationWarning
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSendChatMessage()}
@@ -124,6 +120,7 @@ const ChatComponent: React.FC = () => {
           className="text-white bg-transparent border-none focus:ring-0 focus:outline-none placeholder-gray-500 flex-grow"
         />
         <Button
+        suppressHydrationWarning
           onClick={handleSendChatMessage}
           disabled={!message.trim() || loading}
           className="bg-indigo-800 hover:bg-indigo-900 text-white"
