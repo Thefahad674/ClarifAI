@@ -71,16 +71,7 @@ export default function RootLayout({
               <SignedOut>
                 <header className="w-full py-4 px-6 absolute top-0 left-0">
                   <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <Link href="/" className="flex items-center space-x-2">
-                      <img
-                        src="/clarifai-logo.svg"
-                        alt="ClarifAI Logo"
-                        className="h-8 w-auto"
-                      />
-                      <span className="text-xl font-bold text-slate-100">
-                        ClarifAI
-                      </span>
-                    </Link>
+                   
 
                     <div className="flex items-center space-x-4">
                       <UserButton
