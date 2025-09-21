@@ -90,7 +90,7 @@ export default function RootLayout({
                   </div>
                 </header>
 
-                <div className="max-h-screen max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full mx-auto text-center space-y-8 p-8 m-8 mr-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-800 mt-24">
+                <div className="max-h-screen max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full mx-auto text-center space-y-8 p-8 m-8 bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-800 mt-24">
                   <div className="space-y-2">
                     <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#38bdf8] via-[#818cf8] to-[#22d3ee] bg-clip-text text-transparent">
                       Welcome to ClarifAI
