@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import {
   ClerkProvider,
   SignedOut,
@@ -7,26 +7,26 @@ import {
   SignedIn,
   SignUpButton,
   UserButton,
-} from '@clerk/nextjs';
-import './globals.css';
-import Link from 'next/link';
+} from "@clerk/nextjs";
+import "./globals.css";
+import Link from "next/link";
 import { WavyBackground } from "../components/ui/components/ui/wavy-background";
 
 const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: 'ClarifAI - Intelligent Solutions',
-  description: 'AI-powered platform for intelligent solutions and insights',
+  title: "ClarifAI - Intelligent Solutions",
+  description: "AI-powered platform for intelligent solutions and insights",
   icons: {
-    icon: '/logo.svg',
+    icon: "/logo.svg",
   },
 };
 
@@ -40,25 +40,27 @@ export default function RootLayout({
       <ClerkProvider
         appearance={{
           variables: {
-            colorPrimary: '#8b5cf6',
-            colorText: '#f8fafc',
-            colorBackground: '#0f172a',
-            colorInputBackground: '#1e293b',
-            colorInputText: '#f8fafc',
+            colorPrimary: "#8b5cf6",
+            colorText: "#f8fafc",
+            colorBackground: "#0f172a",
+            colorInputBackground: "#1e293b",
+            colorInputText: "#f8fafc",
           },
           elements: {
-            formButtonPrimary: 'bg-purple-600 hover:bg-purple-700 text-sm normal-case',
-            card: 'bg-slate-900 shadow-xl border border-slate-800 rounded-xl',
-            formFieldInput: 'bg-slate-800 border-slate-700 text-white',
-            footerActionLink: 'text-purple-400 hover:text-purple-300',
-            socialButtonsBlockButton: 'bg-slate-800 border-slate-700 text-white',
-            formFieldLabel: 'text-slate-300',
-            formHeaderTitle: 'text-white',
-            formHeaderSubtitle: 'text-slate-400',
-            dividerLine: 'bg-slate-700',
-            dividerText: 'text-slate-400',
-            identityPreviewText: 'text-white',
-            identityPreviewEditButton: 'text-purple-400',
+            formButtonPrimary:
+              "bg-purple-600 hover:bg-purple-700 text-sm normal-case",
+            card: "bg-slate-900 shadow-xl border border-slate-800 rounded-xl",
+            formFieldInput: "bg-slate-800 border-slate-700 text-white",
+            footerActionLink: "text-purple-400 hover:text-purple-300",
+            socialButtonsBlockButton:
+              "bg-slate-800 border-slate-700 text-white",
+            formFieldLabel: "text-slate-300",
+            formHeaderTitle: "text-white",
+            formHeaderSubtitle: "text-slate-400",
+            dividerLine: "bg-slate-700",
+            dividerText: "text-slate-400",
+            identityPreviewText: "text-white",
+            identityPreviewEditButton: "text-purple-400",
           },
         }}
       >
@@ -71,17 +73,16 @@ export default function RootLayout({
               <SignedOut>
                 <header className="w-full py-4 px-6 absolute top-0 left-0">
                   <div className="max-w-7xl mx-auto flex justify-between items-center">
-                   
-
                     <div className="flex items-center space-x-4">
                       <UserButton
                         afterSignOutUrl="/"
                         appearance={{
                           elements: {
-                            avatarBox: 'w-10 h-10',
-                            userButtonPopoverCard: 'bg-slate-900 border-slate-800',
-                            userButtonPopoverActionButtonText: 'text-slate-200',
-                            userButtonPopoverActionButton: 'hover:bg-slate-800',
+                            avatarBox: "w-10 h-10",
+                            userButtonPopoverCard:
+                              "bg-slate-900 border-slate-800",
+                            userButtonPopoverActionButtonText: "text-slate-200",
+                            userButtonPopoverActionButton: "hover:bg-slate-800",
                           },
                         }}
                       />
@@ -89,12 +90,12 @@ export default function RootLayout({
                   </div>
                 </header>
 
-                <div className="max-w-md w-full mx-auto text-center space-y-8 p-8 bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-800 mt-24">
+                <div className="max-h-screen max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full mx-auto text-center space-y-8 p-8 m-8 mr-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-800 mt-24">
                   <div className="space-y-2">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-[#38bdf8] via-[#818cf8] to-[#22d3ee] bg-clip-text text-transparent">
+                    <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#38bdf8] via-[#818cf8] to-[#22d3ee] bg-clip-text text-transparent">
                       Welcome to ClarifAI
                     </h1>
-                    <p className="text-slate-400">
+                    <p className="text-slate-400 text-sm sm:text-base">
                       Sign in to access AI-powered insights and solutions
                     </p>
                   </div>
@@ -125,7 +126,8 @@ export default function RootLayout({
                   </div>
 
                   <p className="text-xs text-slate-500 pt-4">
-                    By continuing, you agree to our Terms of Service and Privacy Policy.
+                    By continuing, you agree to our Terms of Service and Privacy
+                    Policy.
                   </p>
                 </div>
               </SignedOut>
