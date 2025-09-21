@@ -70,7 +70,7 @@ const ChatComponent: React.FC = () => {
   }, [messages, loading]);
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-neutral-900 via-black to-neutral-950 border-none m-6">
+    <div className="flex flex-col h-full bg-black  border-none m-6">
       {/* Scrollable chat messages */}
       <div
         ref={scrollRef}
